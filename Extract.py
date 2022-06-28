@@ -3,6 +3,7 @@ from spotipy.oauth2 import SpotifyOAuth
 import configparser
 import pandas as pd
 
+
 config = configparser.ConfigParser()
 config.read('spotify.ini')
 
