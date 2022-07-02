@@ -60,13 +60,18 @@ for a, b in unique_plays.itertuples(index=False):
         continue
 
 streaming_history = pd.concat(basic_info)
+
+# Load file
+streaming_history = pd.read_csv('csv\history.csv')
+streaming_history = streaming_history.rename(
+    columns={'id': 'trackID', 'name': 'trackName', 'popularity': 'trackPopularity',
+             'album.id': 'albumID', 'album.name': 'albumName',
+             'album.release_date': 'albumReleaseDate', 'duration_ms': 'durationMs'})
 # rename columns for joining and rest of process
-streaming_history = streaming_history[['track_album_id', 'track_album_name', 'track_album_release_date',
-                                       'track_duration_ms', 'track_id', 'track_name', 'track_popularity']] \
-    .rename(columns={'track_album_id': 'albumID', 'track_album_name': 'albumName',
-                     'track_album_release_date': 'albumReleaseDate', 'track_duration_ms': 'durationMs',
-                     'track_id': 'trackID', 'track_name': 'trackName', 'track_popularity': 'trackPopularity'})
-# then reduce to only fields I want, join on history_reduced (left)
-stream_history_joined = history_reduced.merge(streaming_history, on=["artistName", "trackName"])
-#streaming_history.to_csv(os.path.join(subdir, 'history.csv'), index=False)
-# Take IDs and run through the rest of the process to fill in gaps
+streaming_history = streaming_history[['albumID', 'albumName', 'albumReleaseDate',
+                                       'durationMs', 'trackID', 'trackName', 'trackPopularity']]
+
+stream_history_joined = history_reduced.merge(streaming_history, on=["artistName", "trackName"], how="left")
+# streaming_history.to_csv(os.path.join(subdir, 'history.csv'), index=False)
+# TODO: need ini file to run the trackIDs through to find the artist, then I can merge to the history file
+# TODO: Take IDs and run through the rest of the process to fill in gaps
