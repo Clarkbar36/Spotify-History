@@ -7,4 +7,7 @@ def save_csv(most_recent):
     csv = 'csv'
     subdir = os.path.join(root, csv)
     dateMinusOne = (date.today() - timedelta(days=1)).strftime('%m-%d-%Y') + '.csv'
+    export_path = os.path.join(subdir, dateMinusOne)
     most_recent.to_csv(os.path.join(subdir, dateMinusOne), index=False)
+
+    return export_path
