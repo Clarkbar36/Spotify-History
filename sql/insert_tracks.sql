@@ -1,0 +1,22 @@
+INSERT [dbo].[prd.spotifyTracks]
+SELECT [trackID]
+	,[trackName]
+	,[trackPopularity]
+	,[durationMs]
+	,[danceability]
+	,[energy]
+	,[key]
+	,[loudness]
+	,[mode]
+	,[speechiness]
+	,[acousticness]
+	,[instrumentalness]
+	,[liveness]
+	,[valence]
+	,[tempo]
+	,[time_signature]
+FROM [dbo].[stg.spotifyTracks]
+WHERE trackID NOT IN (
+		SELECT DISTINCT trackID
+		FROM [dbo].[prd.spotifyTracks]
+		)
