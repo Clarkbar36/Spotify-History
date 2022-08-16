@@ -19,5 +19,5 @@ def import_stg_tbl(streamT, albumT, trackT, artistT):
     streamT.to_sql('stg.spotifyStream', engine, if_exists='replace', index=False, dtype={'playedAt': sa.DateTime()})
     albumT.to_sql('stg.spotifyAlbums', engine, if_exists='replace', index=False)
     trackT.to_sql('stg.spotifyTracks', engine, if_exists='replace', index=False)
-    artistT.to_sql('prd.spotifyArtist', engine, if_exists='replace', index=False)
+    artistT.to_sql('stg.spotifyArtist', engine, if_exists='replace', index=False)
     engine.dispose()

@@ -1,6 +1,6 @@
 import pandas as pd
 
-history = pd.read_csv("/csv/final_history.csv", parse_dates=['playedAt'])
+history = pd.read_csv("combined.csv", parse_dates=['playedAt'])
 
 streamTable = history[['playedAt', 'albumID', 'trackID', 'trackHashID']].rename(
     columns={'trackHashID': 'hashID'}).drop_duplicates()
@@ -22,4 +22,4 @@ artistTable['uniqArtID'] = artistTable['artistID'] + artistTable['trackID']
 streamTable.to_sql('stg.spotifyStream', engine, index=False, dtype={'playedAt': sa.DateTime()})
 albumTable.to_sql('stg.spotifyAlbums', engine, index=False)
 trackTable.to_sql('stg.spotifyTracks', engine, index=False)
-artistTable.to_sql('prd.spotifyArtist', engine, index=False)
+artistTable.to_sql('stg.spotifyArtist', engine, if_exists= 'replace', index=False)
